@@ -11,8 +11,8 @@ const Config = require("./Config");
 
 app.use(bodyParser.json());
 
-app.post("/OKM", async (req, res) => {
-    const to_address = req.body.toAddress;
+app.get("/OKM/:toAddress", async (req, res) => {
+    const to_address = req.params.toAddress;
 
     const w = new WalletProvider(Config.privKey.trim(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
