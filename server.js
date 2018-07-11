@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.get("/OKM/:toAddress", (req, res) => {
     const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(process.env.PRIVKEY, "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
 
     const contract = new web3.eth.Contract(ABI, "0x47183f9954c3f95bb6e0631432fce434633ece5c");
@@ -47,7 +47,7 @@ app.get("/OKM/:toAddress", (req, res) => {
 app.get("/ALC/:toAddress", (req, res) => {
     const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(process.env.PRIVKEY, "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
 
     const contract = new web3.eth.Contract(ABI, "0xa5982ff8A26818D6a78A0BC49F080d4A96dD0491");
