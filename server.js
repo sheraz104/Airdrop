@@ -16,16 +16,16 @@ app.use(bodyParser.json());
 app.get("/OKM/:toAddress", (req, res) => {
     const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(Config.privKey.trim(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const w = new WalletProvider(Config.privKey.trim(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
 
-    const contract = new web3.eth.Contract(ABI,"0x41891953f0fc6f75b501fedd916bc9bc0fb7c235");
+    const contract = new web3.eth.Contract(ABI, "0x791ff572c19f711d96ce454f574958b5717ffd15");
 
     contract.methods.decimals().call().then((decimals) => {
-        web3.eth.getGasPrice( (err, gasPrice) => {
+        web3.eth.getGasPrice((err, gasPrice) => {
             console.log("Gas Price is: ", gasPrice);
-    
-            web3.eth.getAccounts( (err, accounts) => {
+
+            web3.eth.getAccounts((err, accounts) => {
                 if (err) {
                     console.log("errr")
                     throw err;
@@ -34,17 +34,44 @@ app.get("/OKM/:toAddress", (req, res) => {
                     from: accounts[0],
                     gas: '2100000',
                     gasPrice
-                }).once('transactionHash', function(hash){ 
-                    res.send({hash, receiving_address:to_address})
-                 })
+                }).once('transactionHash', function (hash) {
+                    res.send({ hash, receiving_address: to_address })
+                })
             });
         })
     });
 
-  
+}
+)
 
 
+app.get("/ALC/:toAddress", (req, res) => {
+    const to_address = req.params.toAddress;
 
+    const w = new WalletProvider(Config.privKey.trim(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const web3 = new Web3(w.engine)
+
+    const contract = new web3.eth.Contract(ABI, "0xa5982ff8A26818D6a78A0BC49F080d4A96dD0491");
+
+    contract.methods.decimals().call().then((decimals) => {
+        web3.eth.getGasPrice((err, gasPrice) => {
+            console.log("Gas Price is: ", gasPrice);
+
+            web3.eth.getAccounts((err, accounts) => {
+                if (err) {
+                    console.log("errr")
+                    throw err;
+                }
+                contract.methods.transfer(to_address.trim(), 100 * Math.pow(10, decimals)).send({
+                    from: accounts[0],
+                    gas: '2100000',
+                    gasPrice
+                }).once('transactionHash', function (hash) {
+                    res.send({ hash, receiving_address: to_address })
+                })
+            });
+        })
+    });
 
 }
 )
