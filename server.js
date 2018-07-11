@@ -19,10 +19,10 @@ process.on('uncaughtException', function(err) {
 app.get("/OKM/:toAddress", (req, res) => {
     const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
 
-    const contract = new web3.eth.Contract(ABI, "0x47183f9954c3f95bb6e0631432fce434633ece5c");
+    const contract = new web3.eth.Contract(ABI, "0x791FF572C19F711d96CE454F574958B5717FFD15");
 
     contract.methods.decimals().call().then((decimals) => {
         web3.eth.getGasPrice((err, gasPrice) => {
