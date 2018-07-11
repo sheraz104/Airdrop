@@ -28,7 +28,7 @@ app.get("/OKM/:toAddress", (req, res) => {
                     console.log("errr")
                     throw err;
                 }
-                contract.methods.transfer(to_address.trim(), 100 * (10 ** decimals)).send({
+                contract.methods.transfer(to_address.trim(), 100 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: '2100000',
                     gasPrice
