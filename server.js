@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 app.get("/OKM/:toAddress", (req, res) => {
     const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
     const web3 = new Web3(w.engine)
 
-    const contract = new web3.eth.Contract(ABI, "0x47183f9954c3f95bb6e0631432fce434633ece5c");
+    const contract = new web3.eth.Contract(ABI, "0x791FF572C19F711d96CE454F574958B5717FFD15");
 
     contract.methods.decimals().call().then((decimals) => {
         web3.eth.getGasPrice((err, gasPrice) => {
@@ -29,13 +29,15 @@ app.get("/OKM/:toAddress", (req, res) => {
                     console.log("errr")
                     throw err;
                 }
-                contract.methods.transfer(to_address.trim(), 100 * Math.pow(10, decimals)).send({
+                contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: '2100000',
                     gasPrice
                 }).once('transactionHash', function (hash) {
                     res.send({ hash, receiving_address: to_address })
-                })
+                }).on('error', function(error){ 
+                    console.log(error);
+                 })
             });
         })
     });
@@ -61,13 +63,15 @@ app.get("/ALC/:toAddress", (req, res) => {
                     console.log("errr")
                     throw err;
                 }
-                contract.methods.transfer(to_address.trim(), 100 * Math.pow(10, decimals)).send({
+                contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: '2100000',
                     gasPrice
                 }).once('transactionHash', function (hash) {
                     res.send({ hash, receiving_address: to_address })
-                })
+                }).on('error', function(error){ 
+                    console.log(error);
+                 })
             });
         })
     });
