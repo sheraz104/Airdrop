@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const Web3 = require("web3");
 const bodyParser = require("body-parser");
