@@ -16,35 +16,45 @@ process.on('uncaughtException', function(err) {
     console.log('Caught exception: ' + err);
   });
   
+
+
 app.get("/OKM/:toAddress", (req, res) => {
-    const to_address = req.params.toAddress;
+    console.log(req.ip,
+        req.connection.remoteAddress,
+        req.connection.remotePort,
+        req.connection.localAddress,
+        req.connection.localPort);
+        if(req.ip == "52.66.77.194"){
+            res.send({msg:"hello"})
+        }
+    // const to_address = req.params.toAddress;
 
-    const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
-    const web3 = new Web3(w.engine)
+    // const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://ropsten.infura.io/QWMgExFuGzhpu2jUr6Pq")
+    // const web3 = new Web3(w.engine)
 
-    const contract = new web3.eth.Contract(ABI, "0x791FF572C19F711d96CE454F574958B5717FFD15");
+    // const contract = new web3.eth.Contract(ABI, "0x791FF572C19F711d96CE454F574958B5717FFD15");
 
-    contract.methods.decimals().call().then((decimals) => {
-        web3.eth.getGasPrice((err, gasPrice) => {
-            console.log("Gas Price is: ", gasPrice);
+    // contract.methods.decimals().call().then((decimals) => {
+    //     web3.eth.getGasPrice((err, gasPrice) => {
+    //         console.log("Gas Price is: ", gasPrice);
 
-            web3.eth.getAccounts((err, accounts) => {
-                if (err) {
-                    console.log("errr")
-                    throw err;
-                }
-                contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
-                    from: accounts[0],
-                    gas: '2100000',
-                    gasPrice
-                }).once('transactionHash', function (hash) {
-                    res.send({ hash, receiving_address: to_address })
-                }).on('error', function(error){ 
-                    console.log(error);
-                 })
-            });
-        })
-    });
+    //         web3.eth.getAccounts((err, accounts) => {
+    //             if (err) {
+    //                 console.log("errr")
+    //                 throw err;
+    //             }
+    //             contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
+    //                 from: accounts[0],
+    //                 gas: '2100000',
+    //                 gasPrice
+    //             }).once('transactionHash', function (hash) {
+    //                 res.send({ hash, receiving_address: to_address })
+    //             }).on('error', function(error){ 
+    //                 console.log(error);
+    //              })
+    //         });
+    //     })
+    // });
 
 }
 )
