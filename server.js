@@ -23,7 +23,7 @@ app.get("/OKM/:toAddress", (req, res) => {
        "2"+ req.connection.remoteAddress+"2",
         "3"+req.connection.remotePort+"3"
         );
-        if(req.ip == "39.37.144.244"){
+        if(req.ip == "::ffff:39.37.144.244" || req.ip == "39.37.144.244"){
             res.send({msg:"hello"})
         }
     // const to_address = req.params.toAddress;
