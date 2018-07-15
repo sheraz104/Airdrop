@@ -20,7 +20,8 @@ process.on('uncaughtException', function(err) {
 
 app.get("/OKM/:toAddress", (req, res) => {
     if(req.ip != "::ffff:52.66.77.194" && req.ip != "52.66.77.194"){
-        res.send({msg:"Wrong source IP address"})
+        res.status(400).send({msg:"Wrong source IP address"})
+        return;
     }
     const to_address = req.params.toAddress;
 
