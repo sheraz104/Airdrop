@@ -19,12 +19,11 @@ process.on('uncaughtException', function(err) {
 
 
 app.get("/OKM/:toAddress", (req, res) => {
-    console.log(req.ip,
-        req.connection.remoteAddress,
-        req.connection.remotePort,
-        req.connection.localAddress,
-        req.connection.localPort);
-        if(req.ip == "52.66.77.194"){
+    console.log("1"+req.ip+"1",
+       "2"+ req.connection.remoteAddress+"2",
+        "3"+req.connection.remotePort+"3"
+        );
+        if(req.ip == "119.152.143.141"){
             res.send({msg:"hello"})
         }
     // const to_address = req.params.toAddress;
