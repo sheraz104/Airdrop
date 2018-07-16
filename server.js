@@ -32,22 +32,27 @@ app.get("/OKM/:toAddress", (req, res) => {
 
     contract.methods.decimals().call().then((decimals) => {
         web3.eth.getGasPrice((err, gasPrice) => {
-            console.log("Gas Price is: ", gasPrice);
 
-            web3.eth.getAccounts((err, accounts) => {
+            web3.eth.getAccounts(async (err, accounts) => {
                 if (err) {
                     console.log("errr")
                     throw err;
                 }
-                contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
+                try{
+                const gasLimit = await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).estimateGas({
                     from: accounts[0],
-                    gas: '2100000',
+                });
+                await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
+                    from: accounts[0],
+                    gas: gasLimit,
                     gasPrice
                 }).once('transactionHash', function (hash) {
+                    console.log("Transferring OKM to", to_address);
                     res.send({ hash, receiving_address: to_address })
-                }).on('error', function(error){ 
-                    console.log(error);
-                 })
+                })
+                } catch(e){
+                    // console.log("error is ", e);
+                }
             });
         })
     });
@@ -55,8 +60,11 @@ app.get("/OKM/:toAddress", (req, res) => {
 }
 )
 
-
 app.get("/ALC/:toAddress", (req, res) => {
+    if(req.ip != "::ffff:52.66.77.194" && req.ip != "52.66.77.194"){
+        res.status(400).send({msg:"Wrong source IP address"})
+        return;
+    }
     const to_address = req.params.toAddress;
 
     const w = new WalletProvider(process.env.PRIVKEY.toString(), "https://mainnet.infura.io/QWMgExFuGzhpu2jUr6Pq")
@@ -66,28 +74,35 @@ app.get("/ALC/:toAddress", (req, res) => {
 
     contract.methods.decimals().call().then((decimals) => {
         web3.eth.getGasPrice((err, gasPrice) => {
-            console.log("Gas Price is: ", gasPrice);
 
-            web3.eth.getAccounts((err, accounts) => {
+            web3.eth.getAccounts(async (err, accounts) => {
                 if (err) {
                     console.log("errr")
                     throw err;
                 }
-                contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).send({
+                try{
+                const gasLimit = await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).estimateGas({
                     from: accounts[0],
-                    gas: '2100000',
+                });
+                await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
+                    from: accounts[0],
+                    gas: gasLimit,
                     gasPrice
                 }).once('transactionHash', function (hash) {
+                    console.log("Transferring ALC to", to_address);
                     res.send({ hash, receiving_address: to_address })
-                }).on('error', function(error){ 
-                    console.log(error);
-                 })
+                })
+                } catch(e){
+                    // console.log("error is ", e);
+                }
             });
         })
     });
 
 }
 )
+
+
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
