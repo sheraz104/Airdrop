@@ -81,10 +81,10 @@ app.get("/ALC/:toAddress", (req, res) => {
                     throw err;
                 }
                 try{
-                const gasLimit = await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).estimateGas({
+                const gasLimit = await contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).estimateGas({
                     from: accounts[0],
                 });
-                await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
+                await contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: gasLimit,
                     gasPrice
