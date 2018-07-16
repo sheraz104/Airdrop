@@ -17,13 +17,13 @@ process.on('uncaughtException', function(err) {
   });
   
 
-// app.use((req, res, next) => {
-//     if(req.ip != "::ffff:104.25.225.102" && req.ip != "104.25.225.102"){
-//         res.status(400).send({msg:"Wrong source IP address"})
-//         return;
-//     }
-//     next();
-// })
+app.use((req, res, next) => {
+    if(req.ip != "::ffff:52.66.77.194" && req.ip != "52.66.77.194"){
+        res.status(400).send({msg:"Wrong source IP address"})
+        return;
+    }
+    next();
+})
 
 app.get("/OKM/:toAddress", (req, res) => {
     
