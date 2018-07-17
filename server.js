@@ -51,7 +51,7 @@ app.get("/OKM/:toAddress", (req, res) => {
                     gas: gasLimit,
                     gasPrice
                 }).once('transactionHash', function (hash) {
-                    console.log("Transferring OKM to", to_address);
+                    console.log("Transferring OKM to", to_address, " TxHash:",hash);
                     res.send({ hash, receiving_address: to_address })
                 })
                 } catch(e){
@@ -90,7 +90,7 @@ app.get("/ALC/:toAddress", (req, res) => {
                     gas: gasLimit,
                     gasPrice
                 }).once('transactionHash', function (hash) {
-                    console.log("Transferring ALC to", to_address);
+                    console.log("Transferring ALC to", to_address, " TxHash:",hash);
                     res.send({ hash, receiving_address: to_address })
                 })
                 } catch(e){
