@@ -55,7 +55,7 @@ app.get("/OKM/:toAddress", (req, res) => {
                     res.send({ hash, receiving_address: to_address })
                 })
                 } catch(e){
-                    // console.log("error is ", e);
+                 console.log("error is ", e);
                 }
             });
         })
@@ -94,7 +94,7 @@ app.get("/ALC/:toAddress", (req, res) => {
                     res.send({ hash, receiving_address: to_address })
                 })
                 } catch(e){
-                    // console.log("error is ", e);
+                    console.log("error is ", e);
                 }
             });
         })
