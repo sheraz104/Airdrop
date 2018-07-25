@@ -18,7 +18,7 @@ process.on('uncaughtException', function(err) {
   
 
 app.use((req, res, next) => {
-    if(req.ip != "::ffff:52.66.77.194" && req.ip != "52.66.77.194"){
+    if(req.ip != "::ffff:13.251.222.121" && req.ip != "13.251.222.121"){
         res.status(400).send({msg:"Wrong source IP address"})
         return;
     }
