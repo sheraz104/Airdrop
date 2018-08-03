@@ -43,13 +43,15 @@ app.get("/OKM/:toAddress", (req, res) => {
                     throw err;
                 }
                 try{
+                const nonce = await web3.eth.getTransactionCount(accounts[0],'pending');
                 const gasLimit = await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).estimateGas({
                     from: accounts[0],
                 });
                 await contract.methods.transfer(to_address.trim(), 200 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: gasLimit,
-                    gasPrice
+                    gasPrice,
+                    nonce
                 }).once('transactionHash', function (hash) {
                     console.log("Transferring OKM to", to_address, " TxHash:",hash);
                     res.send({ hash, receiving_address: to_address })
@@ -82,13 +84,15 @@ app.get("/ALC/:toAddress", (req, res) => {
                     throw err;
                 }
                 try{
+                const nonce = await web3.eth.getTransactionCount(accounts[0],'pending');
                 const gasLimit = await contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).estimateGas({
                     from: accounts[0],
                 });
                 await contract.methods.transfer(to_address.trim(), 1000 * Math.pow(10, decimals)).send({
                     from: accounts[0],
                     gas: gasLimit,
-                    gasPrice
+                    gasPrice,
+                    nonce
                 }).once('transactionHash', function (hash) {
                     console.log("Transferring ALC to", to_address, " TxHash:",hash);
                     res.send({ hash, receiving_address: to_address })
